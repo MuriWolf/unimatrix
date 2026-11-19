@@ -171,7 +171,7 @@ void terminal_writestring_location(size_t x, size_t y, const char* data, uint8_t
   }
 }
 
-// Imprime string centralizada no eixo X. Y e cores variam 
+// Imprime string centralizada no eixo X. Y e cores variam
 void terminal_writestring_centered(size_t y, const char* text, uint8_t color) {
   int total_spacing = VGA_WIDTH - strlen(text);
   int start_spacing = total_spacing / 2;
@@ -191,6 +191,30 @@ void terminal_write_border(char character) {
     terminal_putentryat(character, terminal_color, VGA_WIDTH-1, y);
   }
     
+}
+
+// Imprime um retângulo preenchido pelo caractere character, com a largura especificada em width, a
+// altura em height e com seu canto superior esquerdo posicionado nas coordenadas x e y passadas.
+void terminal_write_rectangle(size_t x, size_t y, size_t width, size_t height, char character, uint8_t color) {
+  if (x >= VGA_WIDTH || y >= VGA_HEIGHT) {
+    return;
+  }
+    
+  for (size_t w = 0; w < width; w++) {
+    size_t rectangle_x_coord = w+x;
+    if (rectangle_x_coord >= VGA_WIDTH) {
+      return;
+    }
+
+    for (size_t h = 0; h < height; h++) {
+      size_t rectangle_y_coord = h+y;
+      if (rectangle_y_coord >= VGA_HEIGHT) {
+        break;
+      }
+
+      terminal_putentryat(character, color, rectangle_x_coord, rectangle_y_coord);
+    }
+  }
 }
 
 /* ===============================================================
@@ -223,4 +247,7 @@ void main() {
 
   // 4. Desenha borda
   terminal_write_border('$');
+
+  // 5. Desenha quadrado
+  terminal_write_rectangle(6, 8, 16, 4, '@', vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED));
 }
