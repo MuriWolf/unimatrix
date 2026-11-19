@@ -217,6 +217,29 @@ void terminal_write_rectangle(size_t x, size_t y, size_t width, size_t height, c
   }
 }
 
+// Imprime um tringulo retângulo (pode não ficar tão parecido devido a fonte do texto)
+void terminal_write_right_triangle(size_t x, size_t y, size_t height, char character, uint8_t color) {
+  if (x >= VGA_WIDTH || y >= VGA_HEIGHT) {
+    return;
+  }
+    
+  for (size_t h = 0; h < height; h++) {
+    size_t rectangle_y_coord = h+y;
+    if (rectangle_y_coord >= VGA_HEIGHT) {
+      break;
+    }
+
+    for (size_t w = 0; w < h+1; w++) {
+      size_t rectangle_x_coord = w+x;
+      if (rectangle_x_coord >= VGA_WIDTH) {
+        return;
+      }
+
+      terminal_putentryat(character, color, rectangle_x_coord, rectangle_y_coord);
+    }
+  }
+}
+
 /* ===============================================================
  * FIM FUNÇÕES DO TRABALHO 
  * ===============================================================
@@ -250,4 +273,7 @@ void main() {
 
   // 5. Desenha quadrado
   terminal_write_rectangle(6, 8, 16, 4, '@', vga_entry_color(VGA_COLOR_LIGHT_RED, VGA_COLOR_RED));
+
+  // 6. Desenha tringulo retângulo
+  terminal_write_right_triangle(45, 10, 10, '*', vga_entry_color(VGA_COLOR_LIGHT_BLUE, VGA_COLOR_BLUE));
 }
