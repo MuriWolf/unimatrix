@@ -80,6 +80,8 @@ uint8_t terminal_color;			// armazena a "atual"
 // ponteiro para a posição da memória do buffer de vídeo
 uint16_t* terminal_buffer = (uint16_t*)VGA_MEMORY;
 
+void terminal_newline();
+
 // "inicializa" o terminal (basicamente, limpa a tela)
 void terminal_initialize(void) 
 {
@@ -131,8 +133,13 @@ void terminal_putchar(char c)
 // é necessário passar o tamanho da string no parâmetro size
 void terminal_write(const char* data, size_t size) 
 {
-	for (size_t i = 0; i < size; i++)
-		terminal_putchar(data[i]);
+	for (size_t i = 0; i < size; i++) {
+    if ((int) data[i] == 10) { // Código ASCII para '\n'
+      terminal_newline();
+    } else {
+		  terminal_putchar(data[i]);
+    }
+  }
 }
 
 // imprime a string apontada pelo parâmetro "data" na linha e coluna atual 
@@ -142,13 +149,21 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
 
-/*
- * INCLUA NESTE PONTO AS FUNÇÕES IMPLEMENTADAS NO SEU TRABALHO
- *
+/* =====================
+ * COMEÇO FUNÇÕES DO TRABALHO 
+ * =====================
  */
 
+// Pula uma linha e vai para a primeira coluna
+void terminal_newline() {
+  terminal_row++;
+  terminal_column = 0;
+}
 
-
+/* =====================
+ * FIM FUNÇÕES DO TRABALHO 
+ * =====================
+ */
 
 void main() {
     
@@ -160,8 +175,11 @@ void main() {
    // mudando a cor
    terminal_setcolor(VGA_COLOR_RED);
    terminal_writestring("Em vermelho agora");
+   terminal_setcolor(VGA_COLOR_LIGHT_GREY);
+
    // imprime um X no centro (mais ou menos...) da tela (x: 40 e y: 12)
    terminal_putentryat('X', vga_entry_color(VGA_COLOR_RED, VGA_COLOR_LIGHT_GREY), 40, 12);
-   
-   // INCLUA AQUI AS CHAMADAS PARA TESTE DAS FUNÇÕES IMPLEMENTADAS NO SEU TRABALHO
+  
+  // 1. String com \n 
+   terminal_writestring("\nLinha\nLinha abaixo");
 }
