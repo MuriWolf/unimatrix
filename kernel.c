@@ -1,7 +1,9 @@
 /*
 	UNImariX 0.2 - Kernel mínimo com "protodriver" de vídeo
 	
-	Ver no arquivo COMANDOS.txt as instruções para compilação e execução
+  INTEGRANTES:
+  Nome                                      RA
+  Murillo Pinheiro de Oliveira              1999341
 */
 
 #include "stdbool.h"
