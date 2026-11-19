@@ -228,13 +228,13 @@ void terminal_write_right_triangle(size_t x, size_t y, size_t height, char chara
   for (size_t h = 0; h < height; h++) {
     size_t rectangle_y_coord = h+y;
     if (rectangle_y_coord >= VGA_HEIGHT) {
-      break;
+      return;
     }
 
     for (size_t w = 0; w < h+1; w++) {
       size_t rectangle_x_coord = w+x;
       if (rectangle_x_coord >= VGA_WIDTH) {
-        return;
+        break;
       }
 
       terminal_putentryat(character, color, rectangle_x_coord, rectangle_y_coord);
