@@ -179,6 +179,20 @@ void terminal_writestring_centered(size_t y, const char* text, uint8_t color) {
   terminal_writestring_location(start_spacing, y, text, color);
 }
 
+// Imprime uma borda na tela usando o caractere passado no parâmetro character
+void terminal_write_border(char character) {
+  for (size_t x = 0; x < VGA_WIDTH; x++) {
+    terminal_putentryat(character, terminal_color, x, 0);
+    terminal_putentryat(character, terminal_color, x, VGA_HEIGHT-1);
+  }
+
+  for (size_t y = 1; y < VGA_HEIGHT-1; y++) {
+    terminal_putentryat(character, terminal_color, 0, y);
+    terminal_putentryat(character, terminal_color, VGA_WIDTH-1, y);
+  }
+    
+}
+
 /* ===============================================================
  * FIM FUNÇÕES DO TRABALHO 
  * ===============================================================
@@ -190,21 +204,23 @@ void main() {
     //*memoria_de_video = 'X';
     
    terminal_initialize();
-   terminal_writestring("Oi teste");
    // mudando a cor
    terminal_setcolor(VGA_COLOR_RED);
-   terminal_writestring("Em vermelho agora");
+   terminal_writestring("\n <color test>");
    terminal_setcolor(VGA_COLOR_LIGHT_GREY);
 
    // imprime um X no centro (mais ou menos...) da tela (x: 40 e y: 12)
    terminal_putentryat('X', vga_entry_color(VGA_COLOR_RED, VGA_COLOR_LIGHT_GREY), 40, 12);
   
   // 1. String com \n 
-   terminal_writestring("\nLinha\nLinha abaixo");
+   terminal_writestring("\n <Line 2>\n <below line 2>");
 
   // 2. Print string em coordenadas especificas
-  terminal_writestring_location(VGA_WIDTH-14, VGA_HEIGHT-2, "No cantinho", vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLUE));
+  terminal_writestring_location(VGA_WIDTH-14, VGA_HEIGHT-3, "No cantinho", vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLUE));
 
   // 3. Print string no centro do eixo X
-  terminal_writestring_centered(VGA_HEIGHT-5, "No meio", vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_GREEN));
+  terminal_writestring_centered(VGA_HEIGHT-5, "Na meiota", vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_GREEN));
+
+  // 4. Desenha borda
+  terminal_write_border('$');
 }
