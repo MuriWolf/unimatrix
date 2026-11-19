@@ -160,6 +160,7 @@ void terminal_newline() {
   terminal_column = 0;
 }
 
+// Imprime string nas coordenadas e cores informadas 
 void terminal_writestring_location(size_t x, size_t y, const char* data, uint8_t color) {
   if (x >= VGA_WIDTH || y >= VGA_HEIGHT) {
     return;
@@ -168,6 +169,14 @@ void terminal_writestring_location(size_t x, size_t y, const char* data, uint8_t
 	for (size_t i = 0; i < strlen(data); i++) {
     terminal_putentryat(data[i], color, x+i, y);
   }
+}
+
+// Imprime string centralizada no eixo X. Y e cores variam 
+void terminal_writestring_centered(size_t y, const char* text, uint8_t color) {
+  int total_spacing = VGA_WIDTH - strlen(text);
+  int start_spacing = total_spacing / 2;
+
+  terminal_writestring_location(start_spacing, y, text, color);
 }
 
 /* ===============================================================
@@ -195,4 +204,7 @@ void main() {
 
   // 2. Print string em coordenadas especificas
   terminal_writestring_location(VGA_WIDTH-14, VGA_HEIGHT-2, "No cantinho", vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLUE));
+
+  // 3. Print string no centro do eixo X
+  terminal_writestring_centered(VGA_HEIGHT-5, "No meio", vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_GREEN));
 }
