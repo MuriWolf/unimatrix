@@ -14,3 +14,4 @@ Então só rodar:
 ./run-kernel.sh
 ```
 
+> **Nota**: foi testado no Arch Linux
