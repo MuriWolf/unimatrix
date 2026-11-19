@@ -149,9 +149,9 @@ void terminal_writestring(const char* data)
 	terminal_write(data, strlen(data));
 }
 
-/* =====================
+/* ===============================================================
  * COMEÇO FUNÇÕES DO TRABALHO 
- * =====================
+ * ===============================================================
  */
 
 // Pula uma linha e vai para a primeira coluna
@@ -160,9 +160,19 @@ void terminal_newline() {
   terminal_column = 0;
 }
 
-/* =====================
+void terminal_writestring_location(size_t x, size_t y, const char* data, uint8_t color) {
+  if (x >= VGA_WIDTH || y >= VGA_HEIGHT) {
+    return;
+  }
+
+	for (size_t i = 0; i < strlen(data); i++) {
+    terminal_putentryat(data[i], color, x+i, y);
+  }
+}
+
+/* ===============================================================
  * FIM FUNÇÕES DO TRABALHO 
- * =====================
+ * ===============================================================
  */
 
 void main() {
@@ -182,4 +192,7 @@ void main() {
   
   // 1. String com \n 
    terminal_writestring("\nLinha\nLinha abaixo");
+
+  // 2. Print string em coordenadas especificas
+  terminal_writestring_location(VGA_WIDTH-14, VGA_HEIGHT-2, "No cantinho", vga_entry_color(VGA_COLOR_WHITE, VGA_COLOR_BLUE));
 }
